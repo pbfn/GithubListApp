@@ -1,5 +1,6 @@
 package com.pedro_bruno.githublistapp.di
 
+import com.pedro_bruno.githublistapp.domain.usecase.FavoriteGistUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.FetchGistListUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,4 +11,5 @@ val domainModule = module {
         CoroutineScope(Dispatchers.IO)
     }
     factory { FetchGistListUseCase(get(), get()) }
+    factory { FavoriteGistUseCase(get(), get()) }
 }

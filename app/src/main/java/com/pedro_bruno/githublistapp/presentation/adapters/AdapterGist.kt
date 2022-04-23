@@ -55,7 +55,7 @@ class AdapterGist() : RecyclerView.Adapter<AdapterGist.AdapterGistViewHolder>() 
             }
             btnFav.isChecked = gist.checked
             btnFav.setOnClickListener {
-                gist.checked = true
+                gist.checked = btnFav.isChecked
                 onFavClickListener?.let {
                     it(gist)
                 }

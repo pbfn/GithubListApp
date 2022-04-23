@@ -1,0 +1,13 @@
+package com.pedro_bruno.githublistapp.data_local.datasource
+
+import com.pedro_bruno.githublistapp.data.datasource.local.GistLocalDataSource
+import com.pedro_bruno.githublistapp.data_local.database.GistDao
+import com.pedro_bruno.githublistapp.data_local.mappers.toDao
+import com.pedro_bruno.githublistapp.domain.model.Gist
+
+class GistLocalDataSourceImpl(
+    private val gistDao: GistDao
+) : GistLocalDataSource {
+
+    override fun favoriteGist(gist: Gist) = gistDao.favoriteGist(gist = gist.toDao())
+}

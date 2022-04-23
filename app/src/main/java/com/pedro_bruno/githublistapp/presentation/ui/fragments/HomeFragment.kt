@@ -78,7 +78,9 @@ class HomeFragment : Fragment() {
 
     private fun setupFavoriteItem() {
         adapterGist.setOnFavClickListener { gist ->
-            //TODO SALVAR ITEM
+            if(gist.checked){
+                homeViewModel.favoriteGist(gist)
+            }
         }
     }
 

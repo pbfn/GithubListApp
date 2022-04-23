@@ -7,6 +7,6 @@ import org.koin.dsl.module
 
 val dataModule = module {
     single<GistRepository> {
-        GistRepositoryImpl(get())
+        GistRepositoryImpl(get(), get())
     }
 }
