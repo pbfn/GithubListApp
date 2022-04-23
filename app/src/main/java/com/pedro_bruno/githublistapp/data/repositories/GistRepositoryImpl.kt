@@ -22,4 +22,8 @@ class GistRepositoryImpl(
     override fun favoriteGist(gist:Gist) {
         gistLocalDataSource.favoriteGist(gist = gist)
     }
+
+    override fun removeGistFromFavorites(gist: Gist) {
+        gistLocalDataSource.removeGistFromFavorites(gist = gist)
+    }
 }

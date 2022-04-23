@@ -8,4 +8,6 @@ interface GistRepository {
     fun fetchGistList(): Flow<List<Gist>>
 
     fun favoriteGist(gist: Gist)
+
+    fun removeGistFromFavorites(gist: Gist)
 }

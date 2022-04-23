@@ -78,8 +78,10 @@ class HomeFragment : Fragment() {
 
     private fun setupFavoriteItem() {
         adapterGist.setOnFavClickListener { gist ->
-            if(gist.checked){
+            if (gist.checked) {
                 homeViewModel.favoriteGist(gist)
+            } else {
+                homeViewModel.removeGistFromfavorite(gist)
             }
         }
     }

@@ -10,4 +10,6 @@ class GistLocalDataSourceImpl(
 ) : GistLocalDataSource {
 
     override fun favoriteGist(gist: Gist) = gistDao.favoriteGist(gist = gist.toDao())
+
+    override fun removeGistFromFavorites(gist: Gist) = gistDao.removeGist(gist = gist.toDao())
 }

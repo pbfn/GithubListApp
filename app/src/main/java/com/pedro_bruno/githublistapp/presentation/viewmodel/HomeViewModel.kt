@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.pedro_bruno.githublistapp.domain.model.Gist
 import com.pedro_bruno.githublistapp.domain.usecase.FavoriteGistUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.FetchGistListUseCase
+import com.pedro_bruno.githublistapp.domain.usecase.RemoveGistFromFavoriteUseCase
 import com.pedro_bruno.githublistapp.util.ViewState
 import com.pedro_bruno.githublistapp.util.postError
 import com.pedro_bruno.githublistapp.util.postSuccess
 
 class HomeViewModel(
     private val fetchGistListUseCase: FetchGistListUseCase,
-    private val favoriteGistUseCase: FavoriteGistUseCase
+    private val favoriteGistUseCase: FavoriteGistUseCase,
+    private val removeGistFromFavoriteUseCase: RemoveGistFromFavoriteUseCase
 ) : ViewModel() {
 
     private val _gistList = MutableLiveData<ViewState<List<Gist>>>()
@@ -40,7 +42,21 @@ class HomeViewModel(
                 gist = gist
             ),
             onSuccess = {
-                it
+
+            },
+            onError = {
+
+            }
+        )
+    }
+
+    fun removeGistFromfavorite(gist: Gist) {
+        removeGistFromFavoriteUseCase(
+            params = RemoveGistFromFavoriteUseCase.Params(
+                gist = gist
+            ),
+            onSuccess = {
+
             },
             onError = {
 

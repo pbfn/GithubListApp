@@ -2,6 +2,7 @@ package com.pedro_bruno.githublistapp.di
 
 import com.pedro_bruno.githublistapp.domain.usecase.FavoriteGistUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.FetchGistListUseCase
+import com.pedro_bruno.githublistapp.domain.usecase.RemoveGistFromFavoriteUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
@@ -12,4 +13,5 @@ val domainModule = module {
     }
     factory { FetchGistListUseCase(get(), get()) }
     factory { FavoriteGistUseCase(get(), get()) }
+    factory { RemoveGistFromFavoriteUseCase(get(),get()) }
 }
