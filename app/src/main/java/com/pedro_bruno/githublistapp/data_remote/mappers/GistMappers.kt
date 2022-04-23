@@ -13,6 +13,7 @@ fun List<GistResponse>.toDomain(): MutableList<Gist> {
 }
 
 fun GistResponse.toDomain(): Gist = Gist(
+    id = this.id,
     nameOwner = this.owner.login,
     photoOwen = this.owner.avatar_url,
     gistType = "teste"

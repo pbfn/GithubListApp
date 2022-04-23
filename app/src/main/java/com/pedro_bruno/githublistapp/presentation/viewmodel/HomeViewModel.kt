@@ -16,9 +16,11 @@ class HomeViewModel(
     private val _gistList = MutableLiveData<ViewState<List<Gist>>>()
     val gistList: LiveData<ViewState<List<Gist>>> = _gistList
 
+    init {
+        fetchGistList()
+    }
 
-
-     fun fetchGistList() {
+    fun fetchGistList() {
         fetchGistListUseCase(
             params = Unit,
             onSuccess = {

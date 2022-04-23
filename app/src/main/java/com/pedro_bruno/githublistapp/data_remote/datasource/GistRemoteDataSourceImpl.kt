@@ -18,7 +18,7 @@ class GistRemoteDataSourceImpl(
                 emit(listGistReponse.toDomain())
             }
         } else {
-
+        //TODO EMITIR RESPOSTA
         }
     }
 }
