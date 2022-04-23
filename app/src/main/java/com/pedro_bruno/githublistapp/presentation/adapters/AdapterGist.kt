@@ -15,6 +15,8 @@ class AdapterGist() : RecyclerView.Adapter<AdapterGist.AdapterGistViewHolder>() 
         RecyclerView.ViewHolder(itemView.root) {
         val image = itemView.imageGist
         val nameOwner = itemView.tvNameOwnerGist
+        val cardGist = itemView.cardGist
+        val btnFav = itemView.btnFav
     }
 
     private val differCallback = object : DiffUtil.ItemCallback<Gist>() {
@@ -41,12 +43,23 @@ class AdapterGist() : RecyclerView.Adapter<AdapterGist.AdapterGistViewHolder>() 
 
     override fun onBindViewHolder(holder: AdapterGistViewHolder, position: Int) {
         val gist = differ.currentList[position]
-
         holder.itemView.apply {
             Glide.with(this).load(gist.photoOwen).into(holder.image)
         }
         holder.apply {
             nameOwner.text = gist.nameOwner
+            cardGist.setOnClickListener {
+                onItemClickListener?.let {
+                    it(gist)
+                }
+            }
+            btnFav.isChecked = gist.checked
+            btnFav.setOnClickListener {
+                gist.checked = true
+                onFavClickListener?.let {
+                    it(gist)
+                }
+            }
         }
     }
 
@@ -54,4 +67,14 @@ class AdapterGist() : RecyclerView.Adapter<AdapterGist.AdapterGistViewHolder>() 
         return differ.currentList.size
     }
 
+    private var onItemClickListener: ((Gist) -> Unit)? = null
+    private var onFavClickListener: ((Gist) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Gist) -> Unit) {
+        onItemClickListener = listener
+    }
+
+    fun setOnFavClickListener(listener: (Gist) -> Unit) {
+        onFavClickListener = listener
+    }
 }

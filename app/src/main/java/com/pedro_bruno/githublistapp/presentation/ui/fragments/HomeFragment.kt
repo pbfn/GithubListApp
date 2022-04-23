@@ -58,10 +58,23 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         val layout = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapterGist = AdapterGist()
+        setupClickItem()
+        setupFavoriteItem()
         binding.rvGist.apply {
             layoutManager = layout
             adapter = adapterGist
         }
     }
 
+    private fun setupClickItem() {
+        adapterGist.setOnItemClickListener { gist ->
+            gist.gistType
+        }
+    }
+
+    private fun setupFavoriteItem() {
+        adapterGist.setOnFavClickListener { gist ->
+            gist.gistType
+        }
+    }
 }

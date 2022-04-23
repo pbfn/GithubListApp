@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardGist"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_margin="16dp"
     android:backgroundTint="@color/light_grey"
+    android:clickable="true"
     android:elevation="40dp"
+    android:focusable="true"
     app:cardCornerRadius="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +26,7 @@
             android:layout_marginEnd="16dp"
             android:text="Title"
             app:layout_constraintBottom_toBottomOf="@+id/imageGist"
-            app:layout_constraintEnd_toStartOf="@+id/appCompatCheckBox"
+            app:layout_constraintEnd_toStartOf="@+id/btnFav"
             app:layout_constraintStart_toEndOf="@+id/imageGist"
             app:layout_constraintTop_toTopOf="@+id/imageGist" />
 
@@ -36,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/appCompatCheckBox"
+            android:id="@+id/btnFav"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
