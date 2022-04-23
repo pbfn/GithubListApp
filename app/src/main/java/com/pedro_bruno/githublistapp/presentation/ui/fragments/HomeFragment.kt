@@ -1,10 +1,14 @@
 package com.pedro_bruno.githublistapp.presentation.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedro_bruno.githublistapp.R
 import com.pedro_bruno.githublistapp.databinding.FragmentHomeBinding
@@ -68,13 +72,17 @@ class HomeFragment : Fragment() {
 
     private fun setupClickItem() {
         adapterGist.setOnItemClickListener { gist ->
-            gist.gistType
+            nextPage(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(gist))
         }
     }
 
     private fun setupFavoriteItem() {
         adapterGist.setOnFavClickListener { gist ->
-            gist.gistType
+            //TODO SALVAR ITEM
         }
+    }
+
+    private fun nextPage(directions: NavDirections) {
+        findNavController().navigate(directions)
     }
 }

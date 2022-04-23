@@ -4,4 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_home_bottom">Home</string>
     <string name="label_search_home">Search</string>
+    <string name="title_details">Details</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="name_owner">Name owner</string>
 </resources>

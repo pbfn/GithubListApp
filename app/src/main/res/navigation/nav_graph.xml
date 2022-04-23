@@ -9,7 +9,7 @@
         android:id="@+id/splashFragment"
         android:name="com.pedro_bruno.githublistapp.presentation.ui.fragments.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -17,11 +17,28 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.pedro_bruno.githublistapp.presentation.ui.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/label_home_bottom"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesGistFragment"
         android:name="com.pedro_bruno.githublistapp.presentation.ui.fragments.FavoritesGistFragment"
-        android:label="fragment_favorites_gist"
-        tools:layout="@layout/fragment_favorites_gist" />
+        android:label="@string/title_favorites"
+        tools:layout="@layout/fragment_favorites_gist">
+        <action
+            android:id="@+id/action_favoritesGistFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.pedro_bruno.githublistapp.presentation.ui.fragments.DetailsFragment"
+        android:label="@string/title_details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="gist"
+            app:argType="com.pedro_bruno.githublistapp.domain.model.Gist" />
+    </fragment>
 </navigation>
