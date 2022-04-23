@@ -19,4 +19,9 @@
         android:name="com.pedro_bruno.githublistapp.presentation.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/favoritesGistFragment"
+        android:name="com.pedro_bruno.githublistapp.presentation.ui.fragments.FavoritesGistFragment"
+        android:label="fragment_favorites_gist"
+        tools:layout="@layout/fragment_favorites_gist" />
 </navigation>
