@@ -30,6 +30,11 @@ class SplashFragment : Fragment() {
         _binding = null
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        nextPage(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+    }
+
     private fun nextPage(directions: NavDirections) {
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
