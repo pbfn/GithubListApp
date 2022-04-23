@@ -1,4 +1,4 @@
-package com.pedro_bruno.githublistapp
+package com.pedro_bruno.githublistapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import com.pedro_bruno.githublistapp.R
 import com.pedro_bruno.githublistapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
