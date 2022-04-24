@@ -67,6 +67,7 @@ dependencies {
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofitCoroutineVersion"
     def okhttpVersion = "4.6.0"
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
 
@@ -82,5 +83,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
+    //LOTTIE
     implementation "com.airbnb.android:lottie:5.0.3"
+
+    //IMAGE CIRCLE VIEW
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

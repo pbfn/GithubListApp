@@ -2,4 +2,12 @@
     <string name="app_name">GithubListApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_home_bottom">Home</string>
+    <string name="label_search_home">Search</string>
+    <string name="title_details">Details</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="name_owner">Name owner</string>
+    <string name="empty_list">Não existe nenhum resultado para a pesqisa</string>
+    <string name="erro_limit_request">Limite de requisições atingido</string>
+    <string name="network_failed">Você não esta conectado, por favor se conecte e clique em sincronizar :) </string>
 </resources>
