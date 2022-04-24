@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pedro_bruno.githublistapp.domain.model.Gist
 import com.pedro_bruno.githublistapp.domain.usecase.FavoriteGistUseCase
-import com.pedro_bruno.githublistapp.domain.usecase.FetchGistListLocalUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.FetchGistListRemoteUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.RemoveGistFromFavoriteUseCase
 import com.pedro_bruno.githublistapp.util.ViewState
 import com.pedro_bruno.githublistapp.util.postError
-import com.pedro_bruno.githublistapp.util.postNeutral
 import com.pedro_bruno.githublistapp.util.postSuccess
 
 class HomeViewModel(
@@ -22,21 +20,37 @@ class HomeViewModel(
     private val _gistList = MutableLiveData<ViewState<List<Gist>>>()
     val gistList: LiveData<ViewState<List<Gist>>> = _gistList
 
+    private var _showProgressBar = MutableLiveData<Boolean>()
+    var showProgressBar: LiveData<Boolean> = _showProgressBar
+
+
     init {
         fetchRemoteGistList()
     }
 
-    private fun fetchRemoteGistList() {
+    fun fetchRemoteGistList(oldGistList: MutableList<Gist> = mutableListOf()) {
+        _showProgressBar.postValue(true)
         fetchGistListRemoteUseCase(
             params = Unit,
-            onSuccess = {
-                _gistList.postSuccess(it)
+            onSuccess = { response ->
+                if (oldGistList.isNullOrEmpty()) {
+                    _showProgressBar.postValue(false)
+                    _gistList.postSuccess(response)
+                } else {
+                    val listResponse: MutableList<Gist> = mutableListOf()
+                    listResponse.addAll(oldGistList)
+                    listResponse.addAll(response)
+                    _showProgressBar.postValue(false)
+                    _gistList.postSuccess(listResponse)
+                }
             },
             onError = {
+                _showProgressBar.postValue(false)
                 _gistList.postError(it)
             }
         )
     }
+
 
     fun favoriteGist(gist: Gist) {
         favoriteGistUseCase(

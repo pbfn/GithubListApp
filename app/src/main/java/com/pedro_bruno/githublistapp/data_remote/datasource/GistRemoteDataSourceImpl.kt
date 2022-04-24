@@ -3,6 +3,7 @@ package com.pedro_bruno.githublistapp.data_remote.datasource
 import com.pedro_bruno.githublistapp.data.datasource.remote.GistRemoteDataSource
 import com.pedro_bruno.githublistapp.data_remote.mappers.toDomain
 import com.pedro_bruno.githublistapp.data_remote.service.GistService
+import com.pedro_bruno.githublistapp.domain.exceptions.LimitResquestException
 import com.pedro_bruno.githublistapp.domain.model.Gist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,7 +19,11 @@ class GistRemoteDataSourceImpl(
                 emit(listGistReponse.toDomain())
             }
         } else {
-        //TODO EMITIR RESPOSTA
+            when (response.code()) {
+                403 -> {
+                    emit(throw LimitResquestException())
+                }
+            }
         }
     }
 }

@@ -7,4 +7,6 @@
     <string name="title_details">Details</string>
     <string name="title_favorites">Favorites</string>
     <string name="name_owner">Name owner</string>
+    <string name="empty_list">Não existe nenhum resultado para a pesqisa</string>
+    <string name="erro_limit_request">Limite de requisições atingido</string>
 </resources>
