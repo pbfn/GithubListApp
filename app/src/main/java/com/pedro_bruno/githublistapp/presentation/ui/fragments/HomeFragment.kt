@@ -1,10 +1,8 @@
 package com.pedro_bruno.githublistapp.presentation.ui.fragments
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
 import androidx.navigation.NavDirections
@@ -14,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pedro_bruno.githublistapp.R
 import com.pedro_bruno.githublistapp.databinding.FragmentHomeBinding
 import com.pedro_bruno.githublistapp.domain.exceptions.LimitResquestException
+import com.pedro_bruno.githublistapp.extensions.hasInternet
 import com.pedro_bruno.githublistapp.presentation.adapters.AdapterGist
 import com.pedro_bruno.githublistapp.presentation.viewmodel.HomeViewModel
 import com.pedro_bruno.githublistapp.util.Constants.QUERY_PAGE_SIZE
@@ -60,8 +59,16 @@ class HomeFragment : Fragment() {
                 isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible
 
             if (shouldPaginate) {
-                homeViewModel.fetchRemoteGistList(adapterGist.differ.currentList)
-                isScrolling = false
+                if (this@HomeFragment.hasInternet()) {
+                    homeViewModel.fetchRemoteGistList(adapterGist.differ.currentList)
+                    isScrolling = false
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Sem conexão com a internet",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
@@ -71,6 +78,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = FragmentHomeBinding.inflate(inflater, container, false).apply {
         _binding = this
+        setHasOptionsMenu(true)
     }.root
 
     override fun onDestroyView() {
@@ -82,6 +90,32 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeData()
         setupRecyclerView()
+        testConnection()
+    }
+
+    private fun testConnection() {
+        if (this.hasInternet()) {
+            binding.tvEmptyList.visibility = View.GONE
+            homeViewModel.fetchRemoteGistList()
+        } else {
+            binding.apply {
+
+            }
+            binding.apply {
+                if (adapterGist.differ.currentList.size > 0) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.network_failed),
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    tvEmptyList.visibility = View.VISIBLE
+                    tvEmptyList.text = getString(R.string.network_failed)
+                }
+            }
+
+
+        }
     }
 
     private fun observeData() {
@@ -153,5 +187,20 @@ class HomeFragment : Fragment() {
             View.INVISIBLE
         }
         isLoading = loading
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_sincronize -> {
+            testConnection()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 }
