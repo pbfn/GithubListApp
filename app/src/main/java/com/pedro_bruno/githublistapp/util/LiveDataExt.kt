@@ -9,3 +9,7 @@ fun <T> MutableLiveData<ViewState<T>>.postSuccess(data: T) {
 fun <T> MutableLiveData<ViewState<T>>.postError(error: Throwable) {
     postValue(ViewState.Error(error))
 }
+
+fun <T> MutableLiveData<ViewState<T>>.postNeutral() {
+    postValue(ViewState.Neutral)
+}

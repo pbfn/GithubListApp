@@ -12,7 +12,7 @@ interface GistDao {
     @Delete
     fun removeGist(gist: GistDataLocal)
 
-    @Query("SELECT * FROM gists")
+    @Query("SELECT * FROM gists ORDER BY id")
     fun fetchListFavorites(): List<GistDataLocal>
 
 }

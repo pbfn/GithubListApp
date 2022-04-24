@@ -1,8 +1,6 @@
 package com.pedro_bruno.githublistapp.presentation.ui.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pedro_bruno.githublistapp.R
 import com.pedro_bruno.githublistapp.databinding.FragmentHomeBinding
 import com.pedro_bruno.githublistapp.presentation.adapters.AdapterGist
 import com.pedro_bruno.githublistapp.presentation.viewmodel.HomeViewModel

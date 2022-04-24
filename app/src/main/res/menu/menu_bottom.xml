@@ -13,7 +13,7 @@
         android:id="@+id/favoritesGistFragment"
         android:checked="false"
         android:icon="@drawable/ic_favorite_24"
-        android:title="@string/label_home_bottom"
+        android:title="@string/title_favorites"
         app:showAsAction="ifRoom" />
 
 </menu>

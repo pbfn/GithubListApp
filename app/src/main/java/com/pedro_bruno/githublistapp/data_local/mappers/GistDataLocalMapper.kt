@@ -11,6 +11,14 @@ fun Gist.toDao(): GistDataLocal = GistDataLocal(
     gistType = this.gistType,
 )
 
+fun List<GistDataLocal>.toDomain(): MutableList<Gist> {
+    val gists: MutableList<Gist> = mutableListOf()
+    for (gist in this) {
+        gists.add(gist.toDomain())
+    }
+    return gists
+}
+
 fun GistDataLocal.toDomain(): Gist = Gist(
     id = this.id,
     nameOwner = this.nameOwner,

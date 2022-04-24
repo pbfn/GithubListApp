@@ -13,17 +13,23 @@ class GistRepositoryImpl(
     private val gistLocalDataSource: GistLocalDataSource
 ) : GistRepository {
 
-    override fun fetchGistList(): Flow<List<Gist>> = flow {
+    override fun fetchGistListRemote(): Flow<List<Gist>> = flow {
         gistRemoteDataSource.fetchGistList().collect { listResponse ->
             emit(listResponse)
         }
     }
 
-    override fun favoriteGist(gist:Gist) {
+    override fun favoriteGist(gist: Gist) {
         gistLocalDataSource.favoriteGist(gist = gist)
     }
 
     override fun removeGistFromFavorites(gist: Gist) {
         gistLocalDataSource.removeGistFromFavorites(gist = gist)
+    }
+
+    override fun fetchGistListLocal(): Flow<List<Gist>> = flow {
+        gistLocalDataSource.fetchGistList().collect { listreponse ->
+            emit(listreponse)
+        }
     }
 }
