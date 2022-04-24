@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface GistRepository {
 
-    fun fetchGistListRemote(): Flow<List<Gist>>
+    fun fetchGistListRemote(page: Int): Flow<List<Gist>>
 
     fun favoriteGist(gist: Gist)
 

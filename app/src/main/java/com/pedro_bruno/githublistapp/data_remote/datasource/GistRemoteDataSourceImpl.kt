@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.flow
 class GistRemoteDataSourceImpl(
     private val gistService: GistService
 ) : GistRemoteDataSource {
-    override fun fetchGistList(): Flow<List<Gist>> = flow {
-        val response = gistService.fetchGistList()
+    override fun fetchGistList(page: Int): Flow<List<Gist>> = flow {
+        val response = gistService.fetchGistList(page = page)
 
         if (response.isSuccessful) {
             response.body()?.let { listGistReponse ->

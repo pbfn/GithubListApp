@@ -23,6 +23,7 @@ class HomeViewModel(
     private var _showProgressBar = MutableLiveData<Boolean>()
     var showProgressBar: LiveData<Boolean> = _showProgressBar
 
+    private var pageGist: Int = 0
 
     init {
         fetchRemoteGistList()
@@ -31,8 +32,11 @@ class HomeViewModel(
     fun fetchRemoteGistList(oldGistList: MutableList<Gist> = mutableListOf()) {
         _showProgressBar.postValue(true)
         fetchGistListRemoteUseCase(
-            params = Unit,
+            params = FetchGistListRemoteUseCase.Params(
+                page = pageGist
+            ),
             onSuccess = { response ->
+                pageGist++
                 if (oldGistList.isNullOrEmpty()) {
                     _showProgressBar.postValue(false)
                     _gistList.postSuccess(response)

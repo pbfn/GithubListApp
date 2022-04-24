@@ -10,10 +10,14 @@ import kotlinx.coroutines.flow.Flow
 class FetchGistListRemoteUseCase(
     scope: CoroutineScope,
     private val gistRepository: GistRepository
-) : UseCase<Unit, List<Gist>>(scope = scope) {
+) : UseCase<FetchGistListRemoteUseCase.Params, List<Gist>>(scope = scope) {
 
-    override fun run(params: Unit): Flow<List<Gist>> {
-        return gistRepository.fetchGistListRemote()
+    data class Params(
+        val page: Int
+    )
+
+    override fun run(params: Params): Flow<List<Gist>> {
+        return gistRepository.fetchGistListRemote(page = params.page)
     }
 
 }

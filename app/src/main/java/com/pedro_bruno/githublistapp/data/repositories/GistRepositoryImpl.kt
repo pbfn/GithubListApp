@@ -13,8 +13,8 @@ class GistRepositoryImpl(
     private val gistLocalDataSource: GistLocalDataSource
 ) : GistRepository {
 
-    override fun fetchGistListRemote(): Flow<List<Gist>> = flow {
-        gistRemoteDataSource.fetchGistList().collect { listResponse ->
+    override fun fetchGistListRemote(page: Int): Flow<List<Gist>> = flow {
+        gistRemoteDataSource.fetchGistList(page = page).collect { listResponse ->
             emit(listResponse)
         }
     }

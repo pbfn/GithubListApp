@@ -3,15 +3,14 @@ package com.pedro_bruno.githublistapp.data_remote.service
 import com.pedro_bruno.githublistapp.data_remote.model.response.GistResponse
 import com.pedro_bruno.githublistapp.data_remote.utils.ApiConstants
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface GistService {
 
     @Headers("Content-type: application/json")
-    @GET("gists")
+    @GET("gists/public")
     suspend fun fetchGistList(
+        @Query("page")
+        page: Int
     ): Response<List<GistResponse>>
 }
