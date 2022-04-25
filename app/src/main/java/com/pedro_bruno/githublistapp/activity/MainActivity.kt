@@ -26,16 +26,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNavigationController() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        navController.popBackStack(R.id.action_splashFragment_to_homeFragment, false)
         binding.bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.splashFragment -> {
                     hideBottomNav()
+                    hideToolbar()
                 }
                 R.id.detailsFragment -> {
                     hideBottomNav()
                 }
                 else -> {
+                    showToolbar()
                     showBottomNav()
                 }
             }
@@ -43,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setToolbar() {
-        val appBarConfiguration = AppBarConfiguration(navGraph = navController.graph)
+        val appBarConfiguration = AppBarConfiguration(binding.bottomNavigationView.menu)
         binding.toolbar.setupWithNavController(
             navController = navController,
             configuration = appBarConfiguration
@@ -61,5 +64,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideBottomNav() {
         binding.bottomNavigationView.visibility = View.GONE
+    }
+
+    private fun hideToolbar() {
+        binding.toolbar.visibility = View.GONE
+    }
+
+    private fun showToolbar() {
+        binding.toolbar.visibility = View.VISIBLE
     }
 }
