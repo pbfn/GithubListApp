@@ -8,7 +8,7 @@ fun Gist.toDao(): GistDataLocal = GistDataLocal(
     id = this.id,
     nameOwner = this.nameOwner,
     photoOwen = this.photoOwen,
-    gistType = this.gistType,
+    gistType = " this.gistType",
 )
 
 fun List<GistDataLocal>.toDomain(): MutableList<Gist> {
@@ -23,6 +23,6 @@ fun GistDataLocal.toDomain(): Gist = Gist(
     id = this.id,
     nameOwner = this.nameOwner,
     photoOwen = this.photoOwen,
-    gistType = this.gistType,
+    gistType = listOf(),
     checked = true
 )
