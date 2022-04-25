@@ -21,4 +21,6 @@ data class GistResponse(
     val description: String,
     @SerializedName("owner")
     val owner: OwnerResponse,
+    @SerializedName("files")
+    val files:Map<String,TypeResponse>
 )

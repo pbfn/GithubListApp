@@ -9,6 +9,7 @@ import com.pedro_bruno.githublistapp.domain.usecase.FetchGistListRemoteUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.RemoveGistFromFavoriteUseCase
 import com.pedro_bruno.githublistapp.util.ViewState
 import com.pedro_bruno.githublistapp.util.postError
+import com.pedro_bruno.githublistapp.util.postNeutral
 import com.pedro_bruno.githublistapp.util.postSuccess
 
 class HomeViewModel(
@@ -78,4 +79,7 @@ class HomeViewModel(
         )
     }
 
+    fun resetState() {
+        _gistList.postNeutral()
+    }
 }

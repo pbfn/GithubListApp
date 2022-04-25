@@ -96,13 +96,18 @@ class HomeFragment : Fragment() {
     private fun testConnection() {
         if (this.hasInternet()) {
             binding.tvEmptyList.visibility = View.GONE
-            homeViewModel.fetchRemoteGistList()
+            if (homeViewModel.gistList.value is ViewState.Success) {
+                val state = homeViewModel.gistList.value as ViewState.Success
+                adapterGist.differ.submitList(state.data)
+            } else {
+                homeViewModel.fetchRemoteGistList()
+            }
+
         } else {
             binding.apply {
-
-            }
-            binding.apply {
-                if (adapterGist.differ.currentList.size > 0) {
+                if (homeViewModel.gistList.value is ViewState.Success) {
+                    val state = homeViewModel.gistList.value as ViewState.Success
+                    adapterGist.differ.submitList(state.data)
                     Toast.makeText(
                         requireContext(),
                         getString(R.string.network_failed),
@@ -122,7 +127,7 @@ class HomeFragment : Fragment() {
         homeViewModel.gistList.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Success -> {
-                    adapterGist.differ.submitList(response.data.toList())
+                    adapterGist.differ.submitList(response.data)
                 }
                 is ViewState.Error -> {
                     when (response.throwable) {
@@ -202,5 +207,9 @@ class HomeFragment : Fragment() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun setupListener() {
+
     }
 }
