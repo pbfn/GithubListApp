@@ -73,4 +73,8 @@ class MainActivity : AppCompatActivity() {
     private fun showToolbar() {
         binding.toolbar.visibility = View.VISIBLE
     }
+
+    override fun onBackPressed() {
+        if (navController.currentDestination?.id == R.id.splashFragment) finish()
+    }
 }
