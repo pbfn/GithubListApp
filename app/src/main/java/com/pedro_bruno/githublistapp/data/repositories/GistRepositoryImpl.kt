@@ -32,4 +32,10 @@ class GistRepositoryImpl(
             emit(listreponse)
         }
     }
+
+    override fun searchGistList(page: Int, owner: String): Flow<List<Gist>> = flow {
+        gistRemoteDataSource.searchGistList(page = page, owner = owner).collect { listResponse ->
+            emit(listResponse)
+        }
+    }
 }

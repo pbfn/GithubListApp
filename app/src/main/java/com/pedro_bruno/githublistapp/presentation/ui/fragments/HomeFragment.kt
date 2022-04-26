@@ -1,6 +1,8 @@
 package com.pedro_bruno.githublistapp.presentation.ui.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.AbsListView
@@ -60,7 +62,15 @@ class HomeFragment : Fragment() {
 
             if (shouldPaginate) {
                 if (this@HomeFragment.hasInternet()) {
-                    homeViewModel.fetchRemoteGistList(adapterGist.differ.currentList)
+                    val search = binding.editTextSearch.text.toString()
+                    if (search.isNotEmpty()) {
+                        homeViewModel.searchGistList(
+                            oldGistList = adapterGist.differ.currentList,
+                            owner = search
+                        )
+                    } else {
+                        homeViewModel.fetchRemoteGistList(oldGistList = adapterGist.differ.currentList)
+                    }
                     isScrolling = false
                 } else {
                     Toast.makeText(
@@ -91,6 +101,7 @@ class HomeFragment : Fragment() {
         observeData()
         setupRecyclerView()
         testConnection()
+        setupListener()
     }
 
     private fun testConnection() {
@@ -98,7 +109,20 @@ class HomeFragment : Fragment() {
             binding.tvEmptyList.visibility = View.GONE
             if (homeViewModel.gistList.value is ViewState.Success) {
                 val state = homeViewModel.gistList.value as ViewState.Success
-                adapterGist.differ.submitList(state.data)
+                if (state.data.isEmpty()) {
+                    binding.apply {
+                        tvEmptyList.visibility = View.VISIBLE
+                        tvEmptyList.text = getString(R.string.empty_list)
+                        rvGist.visibility = View.INVISIBLE
+                    }
+                } else {
+                    binding.apply {
+                        tvEmptyList.visibility = View.GONE
+                        rvGist.visibility = View.VISIBLE
+                    }
+                    adapterGist.differ.submitList(state.data)
+                }
+
             } else {
                 homeViewModel.fetchRemoteGistList()
             }
@@ -127,7 +151,21 @@ class HomeFragment : Fragment() {
         homeViewModel.gistList.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Success -> {
-                    adapterGist.differ.submitList(response.data)
+                    val listResponse = response.data
+                    if (listResponse.isEmpty()) {
+                        binding.apply {
+                            tvEmptyList.visibility = View.VISIBLE
+                            tvEmptyList.text = getString(R.string.empty_list)
+                            rvGist.visibility = View.INVISIBLE
+                        }
+                    } else {
+                        binding.apply {
+                            tvEmptyList.visibility = View.GONE
+                            rvGist.visibility = View.VISIBLE
+                        }
+                        adapterGist.differ.submitList(response.data)
+                    }
+
                 }
                 is ViewState.Error -> {
                     when (response.throwable) {
@@ -176,7 +214,7 @@ class HomeFragment : Fragment() {
             if (gist.checked) {
                 homeViewModel.favoriteGist(gist)
             } else {
-                homeViewModel.removeGistFromfavorite(gist)
+                homeViewModel.removeGistFavorite(gist)
             }
         }
     }
@@ -210,6 +248,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupListener() {
+        //USADO O CLICK AO INVES DO TEXT CHANGE LISTENER PARA QUEBRAR O LIMITE DE REQ
+        binding.apply {
+            textInputSearch.setEndIconOnClickListener {
+                val search = editTextSearch.text.toString()
+                if (search.isNotEmpty()) {
+                    homeViewModel.searchGistList(owner = search)
+                } else {
+                    homeViewModel.fetchRemoteGistList()
+                }
 
+            }
+        }
     }
 }

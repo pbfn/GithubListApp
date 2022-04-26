@@ -12,4 +12,6 @@ interface GistRepository {
     fun removeGistFromFavorites(gist: Gist)
 
     fun fetchGistListLocal(): Flow<List<Gist>>
+
+    fun searchGistList(page: Int,owner: String): Flow<List<Gist>>
 }

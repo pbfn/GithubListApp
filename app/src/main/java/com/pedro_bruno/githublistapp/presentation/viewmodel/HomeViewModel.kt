@@ -7,6 +7,7 @@ import com.pedro_bruno.githublistapp.domain.model.Gist
 import com.pedro_bruno.githublistapp.domain.usecase.FavoriteGistUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.FetchGistListRemoteUseCase
 import com.pedro_bruno.githublistapp.domain.usecase.RemoveGistFromFavoriteUseCase
+import com.pedro_bruno.githublistapp.domain.usecase.SearchGistListRemoteUseCase
 import com.pedro_bruno.githublistapp.util.ViewState
 import com.pedro_bruno.githublistapp.util.postError
 import com.pedro_bruno.githublistapp.util.postNeutral
@@ -16,6 +17,7 @@ class HomeViewModel(
     private val fetchGistListRemoteUseCase: FetchGistListRemoteUseCase,
     private val favoriteGistUseCase: FavoriteGistUseCase,
     private val removeGistFromFavoriteUseCase: RemoveGistFromFavoriteUseCase,
+    private val searchGistListRemoteUseCase: SearchGistListRemoteUseCase
 ) : ViewModel() {
 
     private val _gistList = MutableLiveData<ViewState<List<Gist>>>()
@@ -25,6 +27,7 @@ class HomeViewModel(
     var showProgressBar: LiveData<Boolean> = _showProgressBar
 
     private var pageGist: Int = 0
+    private var searchPageGist: Int = 0
 
     init {
         fetchRemoteGistList()
@@ -38,6 +41,7 @@ class HomeViewModel(
             ),
             onSuccess = { response ->
                 pageGist++
+                searchPageGist = 0
                 if (oldGistList.isNullOrEmpty()) {
                     _showProgressBar.postValue(false)
                     _gistList.postSuccess(response)
@@ -71,7 +75,7 @@ class HomeViewModel(
         )
     }
 
-    fun removeGistFromfavorite(gist: Gist) {
+    fun removeGistFavorite(gist: Gist) {
         removeGistFromFavoriteUseCase(
             params = RemoveGistFromFavoriteUseCase.Params(
                 gist = gist
@@ -79,7 +83,31 @@ class HomeViewModel(
         )
     }
 
-    fun resetState() {
-        _gistList.postNeutral()
+    fun searchGistList(oldGistList: MutableList<Gist> = mutableListOf(), owner: String) {
+        _showProgressBar.postValue(true)
+        searchGistListRemoteUseCase(
+            params = SearchGistListRemoteUseCase.Params(
+                page = searchPageGist,
+                owner = owner
+            ),
+            onSuccess = { response ->
+                pageGist = 0
+                searchPageGist++
+                if (oldGistList.isNullOrEmpty()) {
+                    _showProgressBar.postValue(false)
+                    _gistList.postSuccess(response)
+                } else {
+                    val listResponse: MutableList<Gist> = mutableListOf()
+                    listResponse.addAll(oldGistList)
+                    listResponse.addAll(response)
+                    _showProgressBar.postValue(false)
+                    _gistList.postSuccess(listResponse)
+                }
+            },
+            onError = {
+                _showProgressBar.postValue(false)
+                _gistList.postError(it)
+            }
+        )
     }
 }
