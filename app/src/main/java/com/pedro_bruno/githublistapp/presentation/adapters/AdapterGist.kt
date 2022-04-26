@@ -65,6 +65,7 @@ class AdapterGist() : RecyclerView.Adapter<AdapterGist.AdapterGistViewHolder>() 
                 while (limit != 0) {
                     val chip = Chip(context)
                     chip.text = type.type
+                    chip.isCheckable = false
                     chipGroupTypes.addView(chip)
                     limit--
                 }
