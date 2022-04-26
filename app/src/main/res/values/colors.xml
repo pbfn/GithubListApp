@@ -10,4 +10,5 @@
     <color name="color_secondary">#3490DC</color>
     <color name="color_primary">#0024FF</color>
     <color name="light_grey">#ECECEE</color>
+    <color name ="red">#FF0000</color>
 </resources>

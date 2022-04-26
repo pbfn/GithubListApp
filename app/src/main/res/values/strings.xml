@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GithubListApp</string>
+    <string name="app_name">Gist-Main</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_home_bottom">Home</string>
     <string name="label_search_home">Search</string>
@@ -10,4 +10,5 @@
     <string name="erro_limit_request">Limite de requisições atingido</string>
     <string name="network_failed">Você não esta conectado, por favor se conecte e clique em sincronizar :) </string>
     <string name="failed_bd">Houve uma falha ao buscar os dados</string>
+    <string name="types">Types</string>
 </resources>
