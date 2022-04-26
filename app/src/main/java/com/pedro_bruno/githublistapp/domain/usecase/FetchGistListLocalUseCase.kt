@@ -9,9 +9,13 @@ import kotlinx.coroutines.flow.Flow
 class FetchGistListLocalUseCase(
     scope: CoroutineScope,
     private val gistRepository: GistRepository
-) : UseCase<Unit, List<Gist>>(scope = scope) {
+) : UseCase<FetchGistListLocalUseCase.Params, List<Gist>>(scope = scope) {
 
-    override fun run(params: Unit): Flow<List<Gist>> {
-        return gistRepository.fetchGistListLocal()
+    data class Params(
+        val search: String
+    )
+
+    override fun run(params: Params): Flow<List<Gist>> {
+        return gistRepository.fetchGistListLocal(querySearch = params.search)
     }
 }

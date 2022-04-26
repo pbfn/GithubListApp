@@ -1,8 +1,6 @@
 package com.pedro_bruno.githublistapp.presentation.ui.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.AbsListView
@@ -170,16 +168,7 @@ class HomeFragment : Fragment() {
                 is ViewState.Error -> {
                     when (response.throwable) {
                         is LimitResquestException -> {
-                            binding.apply {
-                                if (adapterGist.itemCount == 0) {
-                                    tvEmptyList.visibility = View.VISIBLE
-                                }
-                            }
-                            Toast.makeText(
-                                requireContext(),
-                                getString(R.string.erro_limit_request),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showError(getString(R.string.erro_limit_request))
                         }
                     }
                 }
@@ -258,6 +247,23 @@ class HomeFragment : Fragment() {
                     homeViewModel.fetchRemoteGistList()
                 }
 
+            }
+        }
+    }
+
+    private fun showError(msg: String) {
+        binding.apply {
+            if (adapterGist.itemCount == 0) {
+                tvEmptyList.apply {
+                    visibility = View.VISIBLE
+                    text = msg
+                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    msg,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

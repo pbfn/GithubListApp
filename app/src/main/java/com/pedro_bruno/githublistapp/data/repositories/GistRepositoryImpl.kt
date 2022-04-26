@@ -27,8 +27,8 @@ class GistRepositoryImpl(
         gistLocalDataSource.removeGistFromFavorites(gist = gist)
     }
 
-    override fun fetchGistListLocal(): Flow<List<Gist>> = flow {
-        gistLocalDataSource.fetchGistList().collect { listreponse ->
+    override fun fetchGistListLocal(querySearch: String): Flow<List<Gist>> = flow {
+        gistLocalDataSource.fetchGistList(querySearch = querySearch).collect { listreponse ->
             emit(listreponse)
         }
     }

@@ -12,7 +12,7 @@ interface GistDao {
     @Delete
     fun removeGist(gist: GistDataLocal)
 
-    @Query("SELECT * FROM gists ORDER BY id")
-    fun fetchListFavorites(): List<GistDataLocal>
+    @Query("SELECT * FROM gists WHERE nameOwner LIKE  '%' || :querySearch || '%' ORDER BY id")
+    fun fetchListFavorites(querySearch: String): List<GistDataLocal>
 
 }
