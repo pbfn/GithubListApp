@@ -9,5 +9,5 @@ interface GistLocalDataSource {
 
     fun removeGistFromFavorites(gist: Gist)
 
-    fun fetchGistList(): Flow<List<Gist>>
+    fun fetchGistList(querySearch: String): Flow<List<Gist>>
 }

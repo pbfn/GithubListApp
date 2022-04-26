@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GistRemoteDataSource {
     fun fetchGistList(page: Int): Flow<List<Gist>>
+
+    fun searchGistList(page: Int, owner: String): Flow<List<Gist>>
 }

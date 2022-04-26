@@ -6,16 +6,19 @@ import com.pedro_bruno.githublistapp.domain.usecase.util.UseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
-class FetchGistListLocalUseCase(
+class SearchGistListRemoteUseCase(
     scope: CoroutineScope,
     private val gistRepository: GistRepository
-) : UseCase<FetchGistListLocalUseCase.Params, List<Gist>>(scope = scope) {
+) : UseCase<SearchGistListRemoteUseCase.Params, List<Gist>>(scope = scope) {
 
     data class Params(
-        val search: String
+        val page: Int,
+        val owner: String
     )
 
-    override fun run(params: Params): Flow<List<Gist>> {
-        return gistRepository.fetchGistListLocal(querySearch = params.search)
+    override fun run(params: Params): Flow<List<Gist>> = when {
+        else -> {
+            gistRepository.searchGistList(page = params.page, owner = params.owner)
+        }
     }
 }

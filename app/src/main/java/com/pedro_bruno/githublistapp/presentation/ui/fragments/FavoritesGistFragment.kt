@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.pedro_bruno.githublistapp.R
 import com.pedro_bruno.githublistapp.databinding.FragmentFavoritesGistBinding
 import com.pedro_bruno.githublistapp.domain.model.Gist
 import com.pedro_bruno.githublistapp.presentation.adapters.AdapterGist
@@ -48,18 +50,35 @@ class FavoritesGistFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeData()
         setupRecyclerView()
-        favoriteGistViewModel.fetchLocalGistList()
+        favoriteGistViewModel.fetchLocalGistList("")
         setupDeleteMove()
+        setupListener()
     }
 
     private fun observeData() {
         favoriteGistViewModel.gistList.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Success -> {
-                    adapterGist.differ.submitList(response.data)
+                    val listGist = response.data
+                    if (listGist.isEmpty()) {
+                        binding.apply {
+                            tvEmptyList.apply {
+                                visibility = View.VISIBLE
+                                text = getString(R.string.empty_list)
+                            }
+                        }
+                    } else {
+                        binding.tvEmptyList.visibility = View.INVISIBLE
+                    }
+                    adapterGist.differ.submitList(listGist)
                 }
                 is ViewState.Error -> {
-
+                    binding.apply {
+                        tvEmptyList.apply {
+                            visibility = View.VISIBLE
+                            text = getString(R.string.failed_bd)
+                        }
+                    }
                 }
             }
         }
@@ -81,6 +100,7 @@ class FavoritesGistFragment() : Fragment() {
             when (response) {
                 is ViewState.Success -> {
                     val gist = response.data
+                    gist.checked = true
                     val list: MutableList<Gist> = mutableListOf()
                     list.addAll(adapterGist.differ.currentList)
                     list.add(indexRemove, gist)
@@ -112,8 +132,15 @@ class FavoritesGistFragment() : Fragment() {
     }
 
     private fun setupFavoriteItem() {
-        adapterGist.setOnFavClickListener { gist ->
-            favoriteGistViewModel.removeGistFromfavorite(gist)
+        adapterGist.setOnFavClickListener { gistClicked ->
+            favoriteGistViewModel.removeGistFromfavorite(gistClicked)
+            view?.let {
+                Snackbar.make(it, "Successfully deleted gist", Snackbar.LENGTH_LONG).apply {
+                    setAction("Undo") {
+                        favoriteGistViewModel.favoriteGist(gistClicked)
+                    }
+                }.show()
+            }
         }
     }
 
@@ -149,6 +176,14 @@ class FavoritesGistFragment() : Fragment() {
         }
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(binding.rvGist)
+        }
+    }
+
+    private fun setupListener() {
+        binding.apply {
+            editTextSearch.doOnTextChanged { text, _, _, _ ->
+                favoriteGistViewModel.fetchLocalGistList(search = text.toString())
+            }
         }
     }
 }

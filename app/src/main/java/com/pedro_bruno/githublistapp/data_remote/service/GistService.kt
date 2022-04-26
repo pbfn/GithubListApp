@@ -13,4 +13,15 @@ interface GistService {
         @Query("page")
         page: Int
     ): Response<List<GistResponse>>
+
+    @Headers("Content-type: application/json")
+    @GET("users/{username}/gists")
+    suspend fun searchGistList(
+        @Path("username")
+        username: String,
+        @Query("page")
+        page: Int
+    ): Response<List<GistResponse>>
+
+
 }

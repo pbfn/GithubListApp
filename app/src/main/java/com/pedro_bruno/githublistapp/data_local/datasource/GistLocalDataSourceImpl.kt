@@ -16,7 +16,7 @@ class GistLocalDataSourceImpl(
 
     override fun removeGistFromFavorites(gist: Gist) = gistDao.removeGist(gist = gist.toDao())
 
-    override fun fetchGistList(): Flow<List<Gist>> = flow {
-        emit(gistDao.fetchListFavorites().toDomain())
+    override fun fetchGistList(querySearch: String): Flow<List<Gist>> = flow {
+        emit(gistDao.fetchListFavorites(querySearch = querySearch).toDomain())
     }
 }

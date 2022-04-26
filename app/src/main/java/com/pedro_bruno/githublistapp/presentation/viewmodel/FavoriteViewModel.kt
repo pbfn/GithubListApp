@@ -40,8 +40,11 @@ class FavoriteViewModel(
         )
     }
 
-    fun fetchLocalGistList() {
-        fetchGistListLocalUseCase(params = Unit,
+    fun fetchLocalGistList(search: String) {
+        fetchGistListLocalUseCase(
+            params = FetchGistListLocalUseCase.Params(
+                search = search
+            ),
             onSuccess = {
                 _gistList.postSuccess(it)
             },
