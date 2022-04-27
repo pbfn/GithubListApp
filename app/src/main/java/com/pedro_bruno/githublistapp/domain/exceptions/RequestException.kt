@@ -4,6 +4,6 @@ import java.lang.Exception
 
 open class RequestException() : Exception()
 
-class LimitResquestException : RequestException()
+class LimitRequestException : RequestException()
 class GenericRequestException() : RequestException()
 class ValidationFailedException : RequestException()

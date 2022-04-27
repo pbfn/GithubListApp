@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pedro_bruno.githublistapp.R
 import com.pedro_bruno.githublistapp.databinding.FragmentHomeBinding
-import com.pedro_bruno.githublistapp.domain.exceptions.LimitResquestException
+import com.pedro_bruno.githublistapp.domain.exceptions.GenericRequestException
+import com.pedro_bruno.githublistapp.domain.exceptions.LimitRequestException
 import com.pedro_bruno.githublistapp.extensions.hasInternet
 import com.pedro_bruno.githublistapp.presentation.adapters.AdapterGist
 import com.pedro_bruno.githublistapp.presentation.viewmodel.HomeViewModel
@@ -167,8 +168,11 @@ class HomeFragment : Fragment() {
                 }
                 is ViewState.Error -> {
                     when (response.throwable) {
-                        is LimitResquestException -> {
+                        is LimitRequestException -> {
                             showError(getString(R.string.erro_limit_request))
+                        }
+                        is GenericRequestException -> {
+                            showError(getString(R.string.failed_request))
                         }
                     }
                 }
@@ -253,11 +257,12 @@ class HomeFragment : Fragment() {
 
     private fun showError(msg: String) {
         binding.apply {
-            if (adapterGist.itemCount == 0) {
+            if (adapterGist.itemCount == 0 || !editTextSearch.text.isNullOrEmpty()) {
                 tvEmptyList.apply {
                     visibility = View.VISIBLE
                     text = msg
                 }
+                rvGist.visibility = View.INVISIBLE
             } else {
                 Toast.makeText(
                     requireContext(),

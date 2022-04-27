@@ -4,7 +4,7 @@ import com.pedro_bruno.githublistapp.data.datasource.remote.GistRemoteDataSource
 import com.pedro_bruno.githublistapp.data_remote.mappers.toDomain
 import com.pedro_bruno.githublistapp.data_remote.service.GistService
 import com.pedro_bruno.githublistapp.domain.exceptions.GenericRequestException
-import com.pedro_bruno.githublistapp.domain.exceptions.LimitResquestException
+import com.pedro_bruno.githublistapp.domain.exceptions.LimitRequestException
 import com.pedro_bruno.githublistapp.domain.exceptions.ValidationFailedException
 import com.pedro_bruno.githublistapp.domain.model.Gist
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +23,7 @@ class GistRemoteDataSourceImpl(
         } else {
             when (response.code()) {
                 403 -> {
-                    emit(throw LimitResquestException())
+                    emit(throw LimitRequestException())
                 }
                 else -> {
                     emit(throw GenericRequestException())

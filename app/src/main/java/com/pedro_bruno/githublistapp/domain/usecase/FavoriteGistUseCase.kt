@@ -9,18 +9,15 @@ import kotlinx.coroutines.flow.flowOf
 
 class FavoriteGistUseCase(
     private val gistRepository: GistRepository,
-    val scope: CoroutineScope
+    scope: CoroutineScope
 ) : UseCase<FavoriteGistUseCase.Params, Unit>(scope = scope) {
 
     data class Params(
         val gist: Gist
     )
 
-    override fun run(params: Params): Flow<Unit> = when {
-        else -> {
-            flowOf(gistRepository.favoriteGist(gist = params.gist))
-        }
-    }
+    override fun run(params: Params): Flow<Unit> =
+        flowOf(gistRepository.favoriteGist(gist = params.gist))
 
 
 }
